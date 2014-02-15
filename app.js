@@ -193,7 +193,6 @@ app.post('/file', function(req, res){
   console.log(req.body);
   //console.log(req.files);
   //console.log(req);
-  var file_data = req.files.picture_data;  
   var filename = req.body.file_name;
 
   var params = {Bucket: 'cloudnotes2014', Key: filename};
