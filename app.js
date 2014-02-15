@@ -191,14 +191,15 @@ app.post('/file', function(req, res){
   });
 */
   console.log(req.body);
-  console.log(req.files);
+  //console.log(req.files);
   //console.log(req);
   var file_data = req.files.picture_data;  
-  var filename = req.body.timestamp;
+  var filename = req.body.file_name;
 
-  var params = {Bucket: 'cloudnotes2014', Key: filename, Body: file_data};
-  s3.putObject(params, function(err, data){
+  var params = {Bucket: 'cloudnotes2014', Key: filename};
+  var obj = s3.getObject(params, function(err, data){
     console.log(err);
+    console.log(data.body.slice(0, 10));
 
   });
 });
