@@ -11,7 +11,7 @@ var passport = require('passport');
 var expressValidator = require('express-validator');
 var SummaryTool = require('node-summary');
 var AWS = require('aws-sdk')
-//AWS.config.loadFromPath('./aws_credentials.json');
+AWS.config.loadFromPath('config/aws_credentials.json');
 
 
 /**
@@ -54,10 +54,10 @@ var day = (hour * 24);
 var week = (day * 7);
 var month = (day * 30);
 
-app.engine('html', require('ejs').renderFile);
+app.engine('jade', require('jade').renderFile);
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'jade');
 app.use(require('connect-assets')({
   src: 'public',
   helperContext: app.locals
@@ -142,10 +142,16 @@ app.get("/test", function(req, res){
 
 });
 
+/*
+Function to read filesß
+*/
+function ReadFile(file){
+  
+}
 
-
-app.post('/text', function(req, res){
+app.get('/text', function(req, res){
   var text = req.body.text;
+  var 
   var s3 = new AWS.S3(); 
   var params = {Bucket: 'cloudnotes', Key: 'filename', Body: text};
   s3.putObject(params);
