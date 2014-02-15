@@ -12,6 +12,7 @@ var expressValidator = require('express-validator');
 var SummaryTool = require('node-summary');
 var AWS = require('aws-sdk')
 var nodecr = require('nodecr')
+var exec = require('child_process').execFile;
 var config = new AWS.Config({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: 'us-west-2'})
 var s3 = new AWS.S3({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: 'us-west-2'}); 
 
@@ -154,7 +155,11 @@ Function to process files. Gets file object from AWS, runs OCR on it,
 resaves as processed file
 */
 var process_file = function(file){
-
+ var args = [file];
+ exec('JavaCode.exe', args, null, function(err, data) {  
+        console.log(err)
+        console.log(data.toString());                       
+    });  
 
 }
 
@@ -170,10 +175,25 @@ app.get('/file', function(req, res){
 });
 
 app.post('/file', function(req, res){
-  var file_data = req.params.picture_data;
+/*  var url = req.body.url;
+
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", url, false );
+  xmlHttp.send( null );
+
+  var file_data = xmlHttp.responseText;
+  var filename = "test android post";
+
+  var params = {Bucket: 'cloudnotes2014', Key: filename, Body: file_data};
+  s3.putObject(params, function(err, data){
+    console.log(err);
+
+  });
+*/
+
+  var file_data = req.files.picture_data;
   console.log(req.body);
-  console.log(req.params);
-  console.log(req);
+  console.log(req.files);
   //console.log(req);
   var filename = "test android post";
   console.log("file_data: "+file_data+" filename: "+filename);
