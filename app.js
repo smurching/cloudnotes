@@ -10,8 +10,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var SummaryTool = require('node-summary');
-AWS.config.loadFromPath('./aws_credentials.json');
-var AWS = requre('aws-sdk')
+var AWS = require('aws-sdk')
+//AWS.config.loadFromPath('./aws_credentials.json');
 
 
 /**
