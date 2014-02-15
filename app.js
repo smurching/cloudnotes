@@ -169,8 +169,12 @@ app.get('/file', function(req, res){
 });
 
 app.post('/file', function(req, res){
-  var file_data = req.query.data;
-  var filename = req.query.filename;
+  var file_data = req.params.picture_data;
+  console.log(req.body);
+  console.log(req.params);
+  console.log(req);
+  //console.log(req);
+  var filename = "test android post";
   console.log("file_data: "+file_data+" filename: "+filename);
   var params = {Bucket: 'cloudnotes2014', Key: filename, Body: file_data};
   s3.putObject(params, function(err, data){
