@@ -11,7 +11,7 @@ var passport = require('passport');
 var expressValidator = require('express-validator');
 var SummaryTool = require('node-summary');
 var AWS = require('aws-sdk')
-AWS.config.loadFromPath('config/aws_credentials.json');
+var s3 = new AWS.S3({accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, region: 'us-west-2'}); 
 
 
 /**
@@ -143,19 +143,51 @@ app.get("/test", function(req, res){
 });
 
 /*
-Function to read filesß
+/*
+
+
+/*
+Function to process files. Gets file object from AWS, runs OCR on it,
+resaves as processed file
 */
-function ReadFile(file){
-  
+var process_file = function(file){
+
+
 }
 
-app.get('/text', function(req, res){
-  var text = req.body.text;
-  var 
-  var s3 = new AWS.S3(); 
-  var params = {Bucket: 'cloudnotes', Key: 'filename', Body: text};
-  s3.putObject(params);
+/*
+Gets a file and returns a URL pointing to the file to the requester
+*/
+app.get('/file', function(req, res){
+  var filename = req.query.filename;
+  console.log(filename);
+  var params = {Bucket : 'cloudnotes2014', Key: filename};
+  var signed_url = s3.getSignedUrl('getObject', params);
+  res.json({url : signed_url});
 });
+
+app.post('/file', function(req, res){
+  var file_data = req.query.data;
+  var filename = req.query.filename;
+  console.log("file_data: "+file_data+" filename: "+filename);
+  var params = {Bucket: 'cloudnotes2014', Key: filename, Body: file_data};
+  s3.putObject(params, function(err, data){
+    console.log(err);
+
+  });
+});
+
+app.get('/file_post', function(req, res){
+  var file_data = req.query.data;
+  var filename = req.query.filename;
+  console.log("file_data: "+file_data+" filename: "+filename);
+  var params = {Bucket: 'cloudnotes2014', Key: filename, Body: file_data};
+  s3.putObject(params, function(err, data){
+    console.log(err);
+
+  });
+});
+
 /**
  * OAuth routes for sign-in.
  */
