@@ -180,7 +180,9 @@ app.post('/file', function(req, res){
 
 app.get('/file_post', function(req, res){
   var file_data = req.body.picture_data;
-  console.log(req.body);
+  console.dir(req.body);
+  console.log(req);
+  console.log(req.Body);
   var filename = "test android post";
   console.log("file_data: "+file_data+" filename: "+filename);
   var params = {Bucket: 'cloudnotes2014', Key: filename, Body: file_data};
