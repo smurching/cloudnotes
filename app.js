@@ -182,7 +182,8 @@ app.post('/file', function(req, res){
 app.get('/file_post', function(req, res){
   var file_data = req.params.picture_data;
   console.log(req.body);
-  console.log(req.params)
+  console.log(req.params);
+  console.log(req);
   //console.log(req);
   var filename = "test android post";
   console.log("file_data: "+file_data+" filename: "+filename);
